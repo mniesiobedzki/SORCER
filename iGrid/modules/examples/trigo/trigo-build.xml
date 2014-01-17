@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 -->
-<project name="Trigo" default="all" basedir=".">
+<project name="Trigo Build" default="all" basedir=".">
     <property name="module.name" value="trigo" />
     <property name="module.run.dir" value="trigo" />
 
@@ -67,8 +67,8 @@
         <classdepandjar jarfile="${sorcer.lib}/SinProvider.jar" files="true">
             <classpath refid="project.classpath" />
             <in name="sorcer.trigo" />
-            <topclass name="sorcer.sorcer.trigo.provider.SinProvider" />
-            <topclass name="sorcer.sorcer.trigo.provider.Sin" />
+            <topclass name="sorcer.trigo.provider.SinProvider" />
+            <topclass name="sorcer.trigo.provider.Sin" />
             <fileset dir="${iGrid.home}/configs" includes="sorcer/util/sorcer.env" />
         </classdepandjar>
     </target>
@@ -77,8 +77,8 @@
         <classdepandjar jarfile="${sorcer.lib}/CosProvider.jar" files="true">
             <classpath refid="project.classpath" />
             <in name="sorcer.trigo" />
-            <topclass name="sorcer.sorcer.trigo.provider.CosProvider" />
-            <topclass name="sorcer.sorcer.trigo.provider.Cos" />
+            <topclass name="sorcer.trigo.provider.CosProvider" />
+            <topclass name="sorcer.trigo.provider.Cos" />
             <fileset dir="${iGrid.home}/configs" includes="sorcer/util/sorcer.env" />
         </classdepandjar>
     </target>
@@ -87,8 +87,8 @@
         <classdepandjar jarfile="${sorcer.lib}/MaxProvider.jar" files="true">
             <classpath refid="project.classpath" />
             <in name="sorcer.trigo" />
-            <topclass name="sorcer.sorcer.trigo.provider.MaxProvider" />
-            <topclass name="sorcer.sorcer.trigo.provider.Max" />
+            <topclass name="sorcer.trigo.provider.MaxProvider" />
+            <topclass name="sorcer.trigo.provider.Max" />
             <fileset dir="${iGrid.home}/configs" includes="sorcer/util/sorcer.env" />
         </classdepandjar>
     </target>

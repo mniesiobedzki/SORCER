@@ -13,7 +13,7 @@ Also you might need to adjust the classpath (provider.classpath) for your provid
 
     <!-- set property values here -->
     <property name="provider.name" value="SinProvider" />
-    <property name="provider.class" value="sorcer.sorcer.trigo.provider.SinProvider" />
+    <property name="provider.class" value="sorcer.trigo.provider.SinProvider" />
 
     <!-- start provider -->
     <target name="boot.SinProvider">

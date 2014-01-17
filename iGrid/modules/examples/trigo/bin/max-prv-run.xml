@@ -13,7 +13,7 @@ Also you might need to adjust the classpath (provider.classpath) for your provid
 
     <!-- set property values here -->
     <property name="provider.name" value="MaxProvider" />
-    <property name="provider.class" value="sorcer.sorcer.trigo.provider.MaxProvider" />
+    <property name="provider.class" value="trigo.provider.MaxProvider" />
 
     <!-- start provider -->
     <target name="boot.MaxProvider">
