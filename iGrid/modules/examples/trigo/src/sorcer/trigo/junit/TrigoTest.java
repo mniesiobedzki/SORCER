@@ -37,14 +37,12 @@ public class TrigoTest implements SorcerConstants {
 
     @Test
     public void sinTest() throws Exception {
-        Task t4 = task("t4",
+        Task t4 = task("sin",
                 sig("Sin", Sin.class),
                 context("sin", in("sin", 1)));
 
         t4 = exert(t4);
-        System.out.println("huj");
-        System.out.println("t3 context: " + value(t4));
-        System.out.println("koniec");
+        System.out.println("tin" + value(t4));
     }
 
     @Test
