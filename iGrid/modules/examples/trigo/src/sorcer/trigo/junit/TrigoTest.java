@@ -76,19 +76,18 @@ public class TrigoTest implements SorcerConstants {
         double sinInput = 0.0;
         double cosInput = 0.0;
 
-        Task sin = srv("sin", sig("sin", Sin.class), cxt("sin", in("input", sinInput), result("value")));
-        Task cos = srv("cos", sig("cos", Cos.class), cxt("cos", in("input", cosInput), result("value")));
-        Task max = srv("max", sig("max", Max.class), cxt("max", in("sin"), in("cos"), result("value")));
+        Task sin = srv("sin", sig("sin", Sin.class), cxt("sin", in("input", sinInput)));
+        Task cos = srv("cos", sig("cos", Cos.class), cxt("cos", in("input", cosInput)));
+        Task max = srv("max", sig("max", Max.class), cxt("max", in("sin"), in("cos")));
 
-        Job job = job("computing max value",
-                job("computing trigonometric values", sin, cos),
-                strategy(Flow.PAR, Strategy.Access.PULL),
+        Job job = job("max",
+                job("trigo", sin, cos, strategy(Flow.PAR, Strategy.Access.PUSH)),
+                strategy(Flow.SEQ, Strategy.Access.PUSH),
                 max,
                 pipe(out(sin, "value"), input(max, "sin")),
                 pipe(out(cos, "value"), input(max, "cos")));
 
-
-        logger.info("Max: " + value(job));
+        logger.info("Max: " + value(job,"max/max/value"));
     }
 
     @Test
