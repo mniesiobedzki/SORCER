@@ -1,5 +1,6 @@
 package sorcer.trigo.provider;
 
+import static sorcer.eo.operator.input;
 import static sorcer.eo.operator.revalue;
 
 import java.rmi.RemoteException;
@@ -36,17 +37,11 @@ public class MaxProvider extends ServiceTasker implements Max {
             }
             if (inputs == null || inputs.size() == 0) inputs = (List<Double>) cxt.getInValues();
 
-            double[] array = new double[5];
-            for (int i = 0; i < 5; i++) {
-                array[i] = (Double) revalue(inputs.get(i));
-            }
-
-            double max = array[0];
-
-            for (int i = 1; i < 5; i++) {
-                if (array[i] > max) {
-                    max = array[i];
-                }
+            double max = (Double)revalue(inputs.get(0));
+            double tmp = max;
+            for(Double item : inputs) {
+                tmp = (Double) revalue(item);
+                if(max < tmp) max = tmp;
             }
 
             cxt.putValue(VALUE, max);

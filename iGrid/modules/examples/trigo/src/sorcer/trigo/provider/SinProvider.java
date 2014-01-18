@@ -4,6 +4,7 @@ import static sorcer.eo.operator.revalue;
 
 import java.rmi.RemoteException;
 import java.util.List;
+import java.util.logging.Logger;
 
 import com.sun.jini.start.LifeCycle;
 
@@ -39,7 +40,6 @@ public class SinProvider extends ServiceTasker implements sorcer.trigo.provider.
             if (inputs == null || inputs.size() == 0) inputs = (List<Double>) cxt.getInValues();
 
             double input = (Double) revalue(inputs.get(0));
-
             cxt.putValue(VALUE, Math.sin(input));
 
         } catch (Exception ex) {

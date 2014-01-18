@@ -1,13 +1,5 @@
 package sorcer.trigo.junit;
 
-import static sorcer.eo.operator.cxt;
-import static sorcer.eo.operator.exert;
-import static sorcer.eo.operator.in;
-import static sorcer.eo.operator.sig;
-import static sorcer.eo.operator.srv;
-import static sorcer.eo.operator.task;
-import static sorcer.eo.operator.value;
-
 import java.rmi.RMISecurityManager;
 import java.util.logging.Logger;
 
@@ -25,6 +17,8 @@ import sorcer.service.Task;
 
 import sorcer.util.Sorcer;
 
+import static sorcer.eo.operator.*;
+
 //@SuppressWarnings("unchecked")
 public class TrigoTest implements SorcerConstants {
 
@@ -35,33 +29,93 @@ public class TrigoTest implements SorcerConstants {
         System.setProperty("java.security.policy", Sorcer.getHome()
                 + "/configs/policy.all");
         System.setSecurityManager(new RMISecurityManager());
-        Sorcer.setCodeBase(new String[]{"SinProvider.jar", "CosProvider.jar",  "MaxProvider.jar"});
+        Sorcer.setCodeBase(new String[]{"SinProvider.jar", "CosProvider.jar", "MaxProvider.jar"});
         System.out.println("CLASSPATH :" + System.getProperty("java.class.path"));
         System.setProperty("java.protocol.handler.pkgs", "sorcer.util.url|org.rioproject.url");
     }
 
     @Test
-    public void maxOfSinAndCos() throws Exception {
+    public void sinTest() throws Exception {
+        Task t4 = task("t4",
+                sig("Sin", Sin.class),
+                context("sin", in("sin", 1)));
 
-        logger.info("Lol");
-//        double sinInput = 1;
-//        double cosInput = 2;
-//
-//        Task sin = srv("sin", sig("sin", Sin.class), cxt("sin", in("input", sinInput)));
-//        Task cos = srv("cos", sig("cos", Cos.class), cxt("cos", in("input", cosInput)));
-//        Task max = srv("max", sig("max", Max.class), cxt("max", in("a"), in("b")));
-//
-//        Exertion job = new ObjectJob("Job");
-//        job.addExertion(sin);
-//        job.addExertion(cos);
-//        job.addExertion(max);
-//
-//        max.getContext().connect("sin", "value", sin.getContext());
-//        max.getContext().connect("cos", "value", cos.getContext());
-//
-//        job = job.exert();
-//
-//        logger.info("job context: " + ((Job) job).getJobContext());
+        t4 = exert(t4);
+        System.out.println("huj");
+        System.out.println("t3 context: " + value(t4));
+        System.out.println("koniec");
+    }
+
+    @Test
+    public void connectMaxOfSinAndCos() throws Exception {
+
+        double sinInput = 0.0;
+        double cosInput = 0.0;
+
+        Task sin = srv("sin", sig("sin", Sin.class), cxt("sin", in("input", sinInput)));
+        Task cos = srv("cos", sig("cos", Cos.class), cxt("cos", in("input", cosInput)));
+        Task max = srv("max", sig("max", Max.class), cxt("max", in("a"), in("b")));
+
+        Exertion job = new ObjectJob("Max of Cos and Sin using connect()");
+
+        job.addExertion(cos);
+        job.addExertion(sin);
+        job.addExertion(max);
+
+        sin.getContext().connect("value", "a", max.getContext());
+        cos.getContext().connect("value", "b", max.getContext());
+
+
+        job = job.exert();
+
+        logger.info("Max: " + value(max,"value"));
+    }
+
+
+    @Test
+    public void max() throws Exception {
+        Task max = task(
+                "max",
+                sig("max", Max.class),
+                context(
+                        "max",
+                        in("x", -10.0),
+                        in("y", 0.0),
+                        in("z", 10.0
+                        )
+                )
+        );
+
+        logger.info("Max: " + value(max, "value"));
+    }
+
+    @Test
+    public void sin() throws Exception {
+        Task sin = task(
+                "sin",
+                sig("sin", Sin.class),
+                context(
+                        "sin",
+                        in("input", Math.toRadians(90))
+                )
+        );
+
+        logger.info("Sin: " + value(sin, "value"));
+    }
+
+
+    @Test
+    public void cos() throws Exception {
+        Task cos = task(
+                "cos",
+                sig("cos", Cos.class),
+                context(
+                        "cos",
+                        in("input", 0.0)
+                )
+        );
+
+        logger.info("Cos: " + value(cos, "value"));
     }
 
 

@@ -13,7 +13,7 @@ Also you might need to adjust the classpath (provider.classpath) for your provid
 
     <!-- set property values here -->
     <property name="provider.name" value="CosProvider" />
-    <property name="provider.class" value="sorcer.sorcer.trigo.provider.CosProvider" />
+    <property name="provider.class" value="sorcer.trigo.provider.CosProvider" />
 
     <!-- start provider -->
     <target name="boot.CosProvider">
