@@ -5,19 +5,20 @@ import java.util.logging.Logger;
 
 import org.junit.Test;
 
+import sorcer.service.*;
+import sorcer.service.Strategy.Flow;
+
 import sorcer.core.SorcerConstants;
 import sorcer.core.exertion.ObjectJob;
 import sorcer.trigo.provider.Cos;
 import sorcer.trigo.provider.Max;
 import sorcer.trigo.provider.Sin;
-import sorcer.service.Exertion;
-import sorcer.service.Job;
-import sorcer.service.ServiceExertion;
-import sorcer.service.Task;
 
 import sorcer.util.Sorcer;
 
 import static sorcer.eo.operator.*;
+import static sorcer.eo.operator.input;
+import static sorcer.eo.operator.out;
 
 //@SuppressWarnings("unchecked")
 public class TrigoTest implements SorcerConstants {
@@ -71,6 +72,26 @@ public class TrigoTest implements SorcerConstants {
         logger.info("Max: " + value(max,"value"));
     }
 
+    @Test
+    public void pipeMaxOfSinAndCos() throws Exception {
+
+        double sinInput = 0.0;
+        double cosInput = 0.0;
+
+        Task sin = srv("sin", sig("sin", Sin.class), cxt("sin", in("input", sinInput), result("value")));
+        Task cos = srv("cos", sig("cos", Cos.class), cxt("cos", in("input", cosInput), result("value")));
+        Task max = srv("max", sig("max", Max.class), cxt("max", in("sin"), in("cos"), result("value")));
+
+        Job job = job("computing max value",
+                job("computing trigonometric values", sin, cos),
+                strategy(Flow.PAR, Strategy.Access.PULL),
+                max,
+                pipe(out(sin, "value"), input(max, "sin")),
+                pipe(out(cos, "value"), input(max, "cos")));
+
+
+        logger.info("Max: " + value(job));
+    }
 
     @Test
     public void max() throws Exception {
