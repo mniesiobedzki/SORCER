@@ -81,11 +81,11 @@ public class TrigoTest implements SorcerConstants {
         Task max = srv("max", sig("max", Max.class), cxt("max", in("sin"), in("cos")));
 
         Job job = job("max",
-                job("trigo", sin, cos, strategy(Flow.PAR, Strategy.Access.PUSH)),
-                strategy(Flow.SEQ, Strategy.Access.PUSH),
+                job("trigo", sin, cos, strategy(Flow.PAR)),
                 max,
                 pipe(out(sin, "value"), input(max, "sin")),
-                pipe(out(cos, "value"), input(max, "cos")));
+                pipe(out(cos, "value"), input(max, "cos"))
+        );
 
         logger.info("Max: " + value(job,"max/max/value"));
     }
